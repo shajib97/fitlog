@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 
 const Banner = () => {
   return (
@@ -26,9 +27,14 @@ const Banner = () => {
       </div>
 
       <div className="flex justify-center">
-        <div className="flex h-72 w-72 items-center justify-center rounded-xl bg-[#222630] text-sm text-gray-400">
-          Hero image goes here
-        </div>
+        <Image
+          src="/images/banner.png"
+          alt="Athlete training"
+          width={334}
+          height={334}
+          className="h-auto w-full max-w-83.5 object-contain"
+          priority
+        />
       </div>
     </section>
   );
