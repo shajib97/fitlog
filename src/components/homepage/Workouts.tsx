@@ -1,4 +1,5 @@
 import { IWorkout } from "../../types/workout.types";
+import WorkoutCard from "../shared/WorkoutCard";
 
 const getWorkouts = async (): Promise<IWorkout[]> => {
   const response = await fetch("https://api.abcz.workers.dev/api/fitlog", {
@@ -24,12 +25,7 @@ const Workouts = async () => {
 
       <div className="mt-8 grid gap-6 md:grid-cols-2 lg:grid-cols-3">
         {workouts.map((workout) => (
-          <div
-            key={workout.id}
-            className="rounded-2xl border border-[#222630] bg-[#15171d] p-6"
-          >
-            {workout.name}
-          </div>
+          <WorkoutCard key={workout.id} workout={workout} />
         ))}
       </div>
     </section>
