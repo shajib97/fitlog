@@ -9,10 +9,6 @@ interface WorkoutDetailsProps {
 const WorkoutDetailsPage = async ({ params }: WorkoutDetailsProps) => {
   const { id } = await params;
 
-  if (!/^\d+$/.test(id)) {
-    notFound();
-  }
-
   const response = await fetch(
     `https://api.abcz.workers.dev/api/fitlog/${id}`,
     { cache: "no-store" },
