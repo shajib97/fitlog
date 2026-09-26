@@ -1,6 +1,7 @@
 import Image from "next/image";
 import { notFound } from "next/navigation";
 import { IWorkout } from "../../../types/workout.types";
+import AddToPlanButton from "../../../components/workoutDetails/AddToPlanButton";
 
 interface WorkoutDetailsProps {
   params: Promise<{ id: string }>;
@@ -89,6 +90,7 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsProps) => {
             ))}
           </ol>
         </section>
+        <AddToPlanButton workout={workout} />
       </div>
     </main>
   );
