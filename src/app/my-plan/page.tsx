@@ -3,6 +3,7 @@
 import Link from "next/link";
 import { useContext, useState } from "react";
 import { WorkoutContext } from "../../context/WorkoutContext";
+import ListedWorkoutCard from "../../components/shared/ListedWorkoutCard";
 
 const MyPlanPage = () => {
   const context = useContext(WorkoutContext);
@@ -77,12 +78,11 @@ const MyPlanPage = () => {
       {workouts.length > 0 ? (
         <div className="mt-6 space-y-4">
           {workouts.map((workout) => (
-            <div
+            <ListedWorkoutCard
               key={workout.id}
-              className="rounded-xl border border-[#222630] bg-[#15171d] p-6"
-            >
-              {workout.name}
-            </div>
+              workout={workout}
+              listType={activeTab}
+            />
           ))}
         </div>
       ) : (
