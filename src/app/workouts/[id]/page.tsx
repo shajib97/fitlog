@@ -2,6 +2,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 import { IWorkout } from "../../../types/workout.types";
 import AddToPlanButton from "../../../components/workoutDetails/AddToPlanButton";
+import SaveForLaterButton from "../../../components/workoutDetails/SaveForLaterButton";
 
 interface WorkoutDetailsProps {
   params: Promise<{ id: string }>;
@@ -90,7 +91,10 @@ const WorkoutDetailsPage = async ({ params }: WorkoutDetailsProps) => {
             ))}
           </ol>
         </section>
-        <AddToPlanButton workout={workout} />
+        <div className="mt-8 flex flex-wrap gap-4">
+          <AddToPlanButton workout={workout} />
+          <SaveForLaterButton workout={workout} />
+        </div>
       </div>
     </main>
   );

@@ -33,7 +33,7 @@ const AddToPlanButton = ({ workout }: { workout: IWorkout }) => {
   return (
     <button
       onClick={handleAddToPlan}
-      className="mt-8 flex items-center gap-2 rounded-md bg-[#c2f800] px-6 py-3 text-sm font-bold text-black"
+      className="flex items-center gap-2 rounded-md bg-[#c2f800] px-6 py-3 text-sm font-bold text-black"
     >
       <FaPlus />
       Add to today&apos;s plan

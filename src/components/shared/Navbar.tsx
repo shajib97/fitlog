@@ -3,9 +3,14 @@
 import Link from "next/link";
 import { usePathname } from "next/navigation";
 import { FaDumbbell } from "react-icons/fa6";
+import { useContext } from "react";
+import { WorkoutContext } from "../../context/WorkoutContext";
 
 const Navbar = () => {
   const pathname = usePathname();
+  const context = useContext(WorkoutContext);
+  const planCount = context?.plan.length ?? 0;
+  const savedCount = context?.saved.length ?? 0;
 
   return (
     <nav className="border-b border-gray-800 bg-[#0f1115]">
@@ -43,12 +48,16 @@ const Navbar = () => {
         <div className="flex gap-4 text-sm text-white">
           <Link href="/my-plan">
             Plan{" "}
-            <span className="rounded-full bg-[#c2f800] px-2 text-black">0</span>
+            <span className="rounded-full bg-[#c2f800] px-2 text-black">
+              {planCount}
+            </span>
           </Link>
 
           <Link href="/my-plan">
             Saved{" "}
-            <span className="rounded-full border border-gray-500 px-2">0</span>
+            <span className="rounded-full border border-gray-500 px-2">
+              {savedCount}
+            </span>
           </Link>
         </div>
       </div>
