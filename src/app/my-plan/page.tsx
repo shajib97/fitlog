@@ -2,17 +2,42 @@
 
 import Link from "next/link";
 import { useContext, useState } from "react";
-import { WorkoutContext } from "../../context/WorkoutContext";
 import ListedWorkoutCard from "../../components/shared/ListedWorkoutCard";
+import { WorkoutContext } from "../../context/WorkoutContext";
 
 const MyPlanPage = () => {
   const context = useContext(WorkoutContext);
+
   const [activeTab, setActiveTab] = useState<"plan" | "saved">("plan");
+  const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating">(
+    "duration",
+  );
 
   if (!context) return null;
 
+  if (!context.loaded) {
+    return (
+      <main className="flex min-h-[70vh] items-center justify-center gap-3 text-[#c2f800]">
+        <span className="h-7 w-7 animate-spin rounded-full border-2 border-[#c2f800] border-t-transparent" />
+        Loading workouts…
+      </main>
+    );
+  }
+
   const { plan, saved } = context;
   const workouts = activeTab === "plan" ? plan : saved;
+
+  const sortedWorkouts = [...workouts].sort((a, b) => {
+    if (sortBy === "calories") {
+      return b.caloriesBurned - a.caloriesBurned;
+    }
+
+    if (sortBy === "rating") {
+      return b.rating - a.rating;
+    }
+
+    return b.duration - a.duration;
+  });
 
   const totalMinutes = plan.reduce(
     (total, workout) => total + workout.duration,
@@ -75,9 +100,28 @@ const MyPlanPage = () => {
         </button>
       </div>
 
+      <div className="mt-5 flex justify-end">
+        <label className="flex items-center gap-3 text-sm text-gray-400">
+          Sort By
+          <select
+            value={sortBy}
+            onChange={(event) =>
+              setSortBy(
+                event.target.value as "duration" | "calories" | "rating",
+              )
+            }
+            className="rounded-md border border-gray-600 bg-[#15171d] px-4 py-2 text-white"
+          >
+            <option value="duration">Duration</option>
+            <option value="calories">Calories</option>
+            <option value="rating">Rating</option>
+          </select>
+        </label>
+      </div>
+
       {workouts.length > 0 ? (
         <div className="mt-6 space-y-4">
-          {workouts.map((workout) => (
+          {sortedWorkouts.map((workout) => (
             <ListedWorkoutCard
               key={workout.id}
               workout={workout}

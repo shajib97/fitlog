@@ -3,7 +3,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useContext } from "react";
-import { FaClock, FaFire, FaStar, FaXmark } from "react-icons/fa6";
+import { FaCheck, FaClock, FaFire, FaStar, FaXmark } from "react-icons/fa6";
 import { toast } from "react-toastify";
 import { WorkoutContext } from "../../context/WorkoutContext";
 import { IWorkout } from "../../types/workout.types";
@@ -32,6 +32,13 @@ const ListedWorkoutCard = ({ workout, listType }: ListedWorkoutCardProps) => {
     }
 
     toast.success(`Removed "${workout.name}".`);
+  };
+  const handleMarkDone = () => {
+    setPlan((previousPlan) =>
+      previousPlan.filter((item) => item.id !== workout.id),
+    );
+
+    toast.success(`Marked "${workout.name}" as done.`);
   };
 
   return (
@@ -67,7 +74,15 @@ const ListedWorkoutCard = ({ workout, listType }: ListedWorkoutCardProps) => {
           >
             View Details
           </Link>
-
+          {listType === "plan" && (
+            <button
+              onClick={handleMarkDone}
+              className="flex items-center gap-2 rounded-md bg-[#c2f800] px-4 py-2 text-sm font-semibold text-black"
+            >
+              <FaCheck />
+              Mark as Done
+            </button>
+          )}
           <button
             onClick={handleRemove}
             aria-label={`Remove ${workout.name}`}

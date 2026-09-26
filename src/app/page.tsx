@@ -9,7 +9,11 @@ export default function HomePage() {
 
       <Suspense
         fallback={
-          <div className="py-16 text-center text-[#c2f800]">
+          <div
+            role="status"
+            className="flex min-h-64 items-center justify-center gap-3 text-[#c2f800]"
+          >
+            <span className="h-7 w-7 animate-spin rounded-full border-2 border-[#c2f800] border-t-transparent" />
             Loading workouts…
           </div>
         }

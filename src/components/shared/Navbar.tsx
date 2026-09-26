@@ -2,9 +2,9 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { FaDumbbell } from "react-icons/fa6";
 import { useContext } from "react";
 import { WorkoutContext } from "../../context/WorkoutContext";
+import Image from "next/image";
 
 const Navbar = () => {
   const pathname = usePathname();
@@ -19,7 +19,13 @@ const Navbar = () => {
           href="/"
           className="flex items-center gap-2 text-xl font-bold text-white"
         >
-          <FaDumbbell className="text-[#c2f800]" />
+          <Image
+            src="/images/logo.png"
+            alt=""
+            width={28}
+            height={28}
+            className="object-contain"
+          />
           FITLOG
         </Link>
 
