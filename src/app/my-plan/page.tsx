@@ -12,6 +12,7 @@ const MyPlanPage = () => {
   const [sortBy, setSortBy] = useState<"duration" | "calories" | "rating">(
     "duration",
   );
+  const [searchText, setSearchText] = useState("");
 
   if (!context) return null;
 
@@ -26,8 +27,15 @@ const MyPlanPage = () => {
 
   const { plan, saved } = context;
   const workouts = activeTab === "plan" ? plan : saved;
+  const query = searchText.toLowerCase().trim();
 
-  const sortedWorkouts = [...workouts].sort((a, b) => {
+  const filteredWorkouts = workouts.filter(
+    (workout) =>
+      workout.name.toLowerCase().includes(query) ||
+      workout.muscleGroups.some((group) => group.toLowerCase().includes(query)),
+  );
+
+  const sortedWorkouts = [...filteredWorkouts].sort((a, b) => {
     if (sortBy === "calories") {
       return b.caloriesBurned - a.caloriesBurned;
     }
@@ -100,7 +108,15 @@ const MyPlanPage = () => {
         </button>
       </div>
 
-      <div className="mt-5 flex justify-end">
+      <div className="mt-5 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
+        <input
+          type="search"
+          value={searchText}
+          onChange={(event) => setSearchText(event.target.value)}
+          placeholder="Search by name or tag"
+          className="w-full rounded-md border border-gray-600 bg-[#15171d] px-4 py-2 text-white sm:max-w-sm"
+        />
+
         <label className="flex items-center gap-3 text-sm text-gray-400">
           Sort By
           <select
@@ -119,7 +135,7 @@ const MyPlanPage = () => {
         </label>
       </div>
 
-      {workouts.length > 0 ? (
+      {sortedWorkouts.length > 0 ? (
         <div className="mt-6 space-y-4">
           {sortedWorkouts.map((workout) => (
             <ListedWorkoutCard
@@ -131,16 +147,24 @@ const MyPlanPage = () => {
         </div>
       ) : (
         <div className="mt-6 rounded-xl border border-[#222630] py-16 text-center">
-          <h2 className="text-2xl font-bold">NOTHING HERE YET</h2>
+          <h2 className="text-2xl font-bold">
+            {query ? "NO MATCHES FOUND" : "NOTHING HERE YET"}
+          </h2>
+
           <p className="mt-2 text-gray-400">
-            Browse the library and add a lift to get today moving.
+            {query
+              ? "Try another workout name or tag."
+              : "Browse the library and add a lift to get today moving."}
           </p>
-          <Link
-            href="/"
-            className="mt-6 inline-block rounded-md bg-[#c2f800] px-6 py-3 text-sm font-bold text-black"
-          >
-            Go to workouts
-          </Link>
+
+          {!query && (
+            <Link
+              href="/"
+              className="mt-6 inline-block rounded-md bg-[#c2f800] px-6 py-3 text-sm font-bold text-black"
+            >
+              Go to workouts
+            </Link>
+          )}
         </div>
       )}
     </main>
