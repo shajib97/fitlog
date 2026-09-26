@@ -12,6 +12,7 @@ const AddToPlanButton = ({ workout }: { workout: IWorkout }) => {
   if (!context) return null;
 
   const { plan, setPlan } = context;
+  const planIsFull = plan.length >= 5;
 
   const handleAddToPlan = () => {
     const alreadyAdded = plan.find((item) => item.id === workout.id);
@@ -33,7 +34,8 @@ const AddToPlanButton = ({ workout }: { workout: IWorkout }) => {
   return (
     <button
       onClick={handleAddToPlan}
-      className="flex items-center gap-2 rounded-md bg-[#c2f800] px-6 py-3 text-sm font-bold text-black"
+      disabled={planIsFull}
+      className="mt-8 flex items-center gap-2 rounded-md bg-[#c2f800] px-6 py-3 text-sm font-bold text-black disabled:cursor-not-allowed disabled:opacity-50"
     >
       <FaPlus />
       Add to today&apos;s plan
